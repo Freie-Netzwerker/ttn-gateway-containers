@@ -1,10 +1,10 @@
 # Environment Variables
-## Required global variables
+## gateway Required global variables
 * GW_ID required
 * GW_KEY required
   * This gateway ID and gateway Key for TTN will be used to fetch the gateway's information form the TTN console. When SERVER_TTN is true, this will also be used to conenct and forward packets to TTN.
 
-## Optional global variables
+## gateway Optional global variables
 * GW_EUI - by default an EUI will be generated from the Raspberry Pi's ethernet MAC address.
   * The unique identifier for this gateway. It is used in LoRaWAN networks to identify where the packet was received and to address where a downlink packet needs to be sent from.
 * GW_CONTACT_EMAIL - default an empty string
@@ -37,6 +37,9 @@
   * Set this to the dBd gain of your antenna. The dBd value is the dBi value minus 2.15dB, ie. dBd = dBi-2.15. This is used to reduce the TX power of the concentrator to stay within the legal limits.
 * FREQ_PLAN_URL optional - default `https://account.thethingsnetwork.org/api/v2/frequency-plans/EU_863_870`
   * The URL where the base configuration file and frequency plan should be downloaded from. This is overwritten by the URL given by the TTN account server when using the TTN gateway connector protocol.
+
+## collectd Optional global variables
+* GW_COLLECTD_SERVER - IP address of the collectd server
 
 ## Server variables
 All server variables are optional, but when a server is enabled, it is recommended to set all variables to configure it completely.

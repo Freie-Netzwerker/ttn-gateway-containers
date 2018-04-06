@@ -175,4 +175,5 @@ Once the new image is deployed, go to the resin.io dashboard for your devices an
 * [Ruud Vlaming](https://github.com/devlaam) on the [Lorank8 installer](https://github.com/Ideetron/Lorank)
 * [Jac Kersing](https://github.com/kersing) on the [Multi-protocol packet forwarder](https://github.com/kersing/packet_forwarder/tree/master/mp_pkt_fwd)
 * [Ray Ozzie](https://github.com/rayozzie/ttn-resin-gateway-rpi) on the original ResinIO setup
+* [Amedee Bulle](https://github.com/AmedeeBulle/ttn-resin-gateway-rpi) on the docker compose ResinIO setup with prometheus and collectd
 * [The Team](https://resin.io/team/) at resin.io
