@@ -163,11 +163,20 @@ If you get the error below please check if your ssh public key has been added to
 - For devices without a GPS, the location that is configured on the TTN console is used. This location is only read at startup of the gateway. Therefore, after you set or changed the location, restart the application from the resin.io console.
 
 # Device statistics
-If you want to show nice looking statistics for your gateway(s) there are a couple of additional steps to take. First, copy `Dockerfile.template.metering` to `Dockerfile.template`. Next copy `start.sh.metering` to `start.sh`. Now use the instructions above to update the resin image.
+Set the variable GW_COLLECTD_SERVER to the IP of your collectd server to collect lots of stats from the gateway. If you want to use a encrypted UDP datastream edit the collectd/collectd.conf.d/network.conf to something like:
+```
+# Network upload
+LoadPlugin network
 
-Once the new image is deployed, go to the resin.io dashboard for your devices and select 'Enable Public device URL' in the drop down menu (the one to the right of the light bulb). That is all that is required to provide metrics. Now you will need to install a metrics collector on a seperate system as outlined in [Fleet-wide Machine Metrics Monitoring in 20mins](https://resin.io/blog/prometheusv2/).
-
-(To show packet forwarder graphs you need to add your own graphs to the provided templates)
+<Plugin network>
+  <Server "***.***.***.***">
+    SecurityLevel "Encrypt"
+      Username "********"
+      Password "****************"
+    </Server>
+</Plugin>
+```
+On the collectd server you can setup a database like influxdb to store the data and grafana to visualize it.
 
 # Credits
 
