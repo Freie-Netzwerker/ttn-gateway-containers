@@ -1,5 +1,5 @@
 # Collectd
-FROM resin/raspberrypi3-debian:jessie
+FROM resin/raspberrypi3-debian:latest
 
 RUN apt-get update && \
     apt-get install collectd git libpython2.7 python python-smbus && \

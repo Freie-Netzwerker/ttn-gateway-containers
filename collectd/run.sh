@@ -31,22 +31,7 @@ then
   echo "*** Collectd server: ${GW_COLLECTD_SERVER}"
   sed -i "s/^\tServer .*/\tServer \"${GW_COLLECTD_SERVER}\"/" "${ConfigNetwork}"
 else
-  echo "*** No Collectd server specified"
-  exec sleep 86400
-fi
-
-if [ "${GW_BACKPLANE}" = "DBRGN" ]
-then
-  echo "*** Support for Dbrgn's backplane enabled"
-  # Enable voltage, temperature, humidity collection
-  sed -i 's/##SHT21## //' "${ConfigPython}"
-  sed -i 's/##MCP3425## //' "${ConfigPython}"
-fi
-
-if [ "${GW_TTN_FAN}" = "true" ]
-then
-  echo "*** Fan monitoring enabled"
-  sed -i 's/##TTN_FAN## //' "${ConfigPython}"
+  echo "*** Collectd server: Standard"
 fi
 
 exec collectd -C "${Config}" -f

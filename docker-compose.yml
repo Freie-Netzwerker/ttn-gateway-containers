@@ -1,5 +1,5 @@
 # Docker-compose file for TTN gateway
-# Prometheus reporting stack
+# Collectd reporting stack
 # Requires docker-compose 1.9 or newer
 
 # Version 2.1 for resin compatibility
@@ -8,7 +8,7 @@ services:
   # The gateway itself
   gateway:
     build: gateway
-    image: amedee/ttn-gateway
+    image: Freie-Netzwerker/ttn-gateway
     privileged: true
     network_mode: host
     restart: always
@@ -17,27 +17,20 @@ services:
       GW_ID: "${GW_ID:?Gateway Id is mandatory}"
       GW_EUI: "${GW_EUI}"
       GW_LOGGER: "${GW_LOGGER:-false}"
+      GW_SPI_SPEED: "${GW_SPI_SPEED}"
     devices:
       - "/dev/mem:/dev/mem"
     volumes:
       - var_ttn_vol:/var/ttn
-  # Prometheus exporter
-  prom-exporter:
-    build: prom-exporter
-    image: amedee/ttn-prom-exporter
+  # Collectd
+  collectd:
+    build: collectd
+    image: Freie-Netzwerker/ttn-collectd
     privileged: true
-    restart: always
-    # "link" is not supported in resin, we bind to localhost
-    ports:
-      - "127.0.0.1:9100:9100"
-  # TTN exporter
-  exporter:
-    build: exporter
-    image: amedee/ttn-exporter
-    privileged: true
-    # Exporter ned to access localhost to call prom-exporter
     network_mode: host
     restart: always
+    environment:
+      GW_COLLECTD_SERVER: "${GW_COLLECTD_SERVER}"
     volumes:
       - var_ttn_vol:/var/ttn
 
