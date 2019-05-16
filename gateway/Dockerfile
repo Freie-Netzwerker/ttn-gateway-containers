@@ -1,6 +1,6 @@
 # Build as non-resin for now
-# FROM resin/%%RESIN_MACHINE_NAME%%-debian:latest AS buildstep
-FROM resin/raspberrypi3-debian:latest AS buildstep
+# FROM resin/%%RESIN_MACHINE_NAME%%-debian:stretch AS buildstep
+FROM resin/raspberrypi3-debian:stretch AS buildstep
 
 WORKDIR /opt/ttn-gateway/
 
@@ -11,8 +11,8 @@ RUN apt-get update && \
 COPY dev dev
 RUN ./dev/build.sh
 
-# FROM resin/%%RESIN_MACHINE_NAME%%-debian:latest
-FROM resin/raspberrypi3-debian:latest
+# FROM resin/%%RESIN_MACHINE_NAME%%-debian:stretch
+FROM resin/raspberrypi3-debian:stretch
 
 WORKDIR /opt/ttn-gateway
 

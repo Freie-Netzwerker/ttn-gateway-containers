@@ -9,7 +9,7 @@ echo "*** Starting TTN Collectd daemon"
 
 if [ "${RESIN}" = "1" ]
 then
-  echo "*** Running in resin.io environment"
+  echo "*** Running in balena-cloud.com environment"
 
   # Expunge unexpanded variables from docker-compose
   GwVars=$(compgen -A variable GW_)
