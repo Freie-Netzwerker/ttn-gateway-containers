@@ -18,6 +18,8 @@ services:
       GW_EUI: "${GW_EUI}"
       GW_LOGGER: "${GW_LOGGER:-false}"
       GW_SPI_SPEED: "${GW_SPI_SPEED}"
+      GW_GPS: "${GW_GPS:-false}"
+      GW_RESET_PIN: "${GW_RESET_PIN:-22}"
     devices:
       - "/dev/mem:/dev/mem"
     volumes:

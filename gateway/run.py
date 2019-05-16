@@ -65,6 +65,7 @@ if not os.environ.get("GW_EUI"):
 else:
   my_eui = os.environ.get("GW_EUI")
 
+print ("GW_EUI:\t"+my_eui)
 
 # Define default configs
 description = os.getenv('GW_DESCRIPTION', "")
@@ -76,11 +77,14 @@ frequency_plan_url = os.getenv('FREQ_PLAN_URL', "https://account.thethingsnetwor
 
 # Fetch config from TTN if TTN is enabled
 if(os.getenv('SERVER_TTN', "true")=="true"):
+  print ("Enabling TTN gateway connector")
 
   if not os.environ.get("GW_ID"):
-    print ("ERROR: GW_ID required")
-    print ("See https://www.thethingsnetwork.org/docs/gateways/registration.html#via-gateway-connector")
-    sys.exit(0)
+    print ("WARNING: No GW_ID defined. Falling back to EUI.")
+    my_gw_id = "eui-"+my_eui.lower()
+    print ("GW_ID:\t"+my_gw_id)
+  else:
+    my_gw_id = os.environ.get("GW_ID")
 
   if not os.environ.get("GW_KEY"):
     print ("ERROR: GW_KEY required")
@@ -94,7 +98,7 @@ if(os.getenv('SERVER_TTN', "true")=="true"):
   # Fetch the URL, if it fails try 30 seconds later again.
   config_response = ""
   try:
-    req = urllib2.Request('https://account.thethingsnetwork.org/gateways/'+os.environ.get("GW_ID"))
+    req = urllib2.Request('https://account.thethingsnetwork.org/gateways/'+my_gw_id)
     req.add_header('Authorization', 'Key '+os.environ.get("GW_KEY"))
     response = urllib2.urlopen(req, timeout=30)
     config_response = response.read()
@@ -136,7 +140,7 @@ if(os.getenv('SERVER_TTN', "true")=="true"):
         fallback_routers.append(fb_router["mqtt_address"])
 
 
-  print ("Gateway ID:\t"+os.environ.get("GW_ID"))
+  print ("Gateway ID:\t"+my_gw_id)
   print ("Gateway Key:\t"+os.environ.get("GW_KEY"))
   print ("Frequency plan:\t\t"+frequency_plan)
   print ("Frequency plan url:\t"+frequency_plan_url)
@@ -195,6 +199,10 @@ if(os.getenv('GW_FWD_CRC_VAL', "true")=="false"):
   #default is True
   gateway_conf['forward_crc_valid'] = False
 
+if(os.getenv('GW_DOWNSTREAM', "true")=="false"):
+  #default is True
+  gateway_conf['downstream'] = False
+
 # Parse GW_GPS env var. It is a string, we need a boolean.
 if(os.getenv('GW_GPS', "false")=="true"):
   gw_gps = True
@@ -231,9 +239,13 @@ if(os.getenv('SERVER_TTN', "true")=="true"):
   server['serv_type'] = "ttn"
   server['server_address'] = router
   server['server_fallbacks'] = fallback_routers
-  server['serv_gw_id'] = os.environ.get("GW_ID")
+  server['serv_gw_id'] = my_gw_id
   server['serv_gw_key'] = os.environ.get("GW_KEY")
   server['serv_enabled'] = True
+  if(os.getenv('SERVER_TTN_DOWNLINK', "true")=="false"):
+    server['serv_down_enabled'] = False
+  else:
+    server['serv_down_enabled'] = True
   gateway_conf['servers'].append(server)
 else:
   if(os.getenv('SERVER_0_ENABLED', "false")=="true"):
@@ -334,6 +346,7 @@ while True:
       time.sleep(0.1)
       GPIO.input(pin_number)
       GPIO.cleanup(pin_number)
+      time.sleep(0.1)
     except ValueError:
       print ("Can't interpret "+os.environ.get("GW_RESET_PIN")+" as a valid pin number.")
 
@@ -348,6 +361,7 @@ while True:
     time.sleep(0.1)
     GPIO.input(22)
     GPIO.cleanup(22)
+    time.sleep(0.1)
 
   # Start forwarder
   sys.stdout.flush()
