@@ -41,7 +41,7 @@
   * The URL where the base configuration file and frequency plan should be downloaded from. This is overwritten by the URL given by the TTN account server when using the TTN gateway connector protocol.
 * GW_SPI_SPEED optional - default 8000000.
   * The SPI bus speed in Herz to use to communicate with the concentrator.
-  
+
 ## collectd Optional global variables
 * GW_COLLECTD_SERVER - IP address of the collectd server
 
@@ -51,6 +51,10 @@ All server variables are optional, but when a server is enabled, it is recommend
   Should the gateway connect to the TTN backend
 * SERVER_TTN_DOWNLINK - default true
   Enable downlink transmissions for this server
+* ACCOUNT_SERVER_DOMAIN optional - default `account.thethingsnetwork.org`
+  Domain of the account server to fetch the information from
+* ROUTER_MQTT_ADDRESS optional
+  Override the address of the MQTT broker to connect to - e.g. `router.eu.thethings.network:1883`
 
 * SERVER_1_ENABLED optional - default false
 * SERVER_1_TYPE - default "semtech"
