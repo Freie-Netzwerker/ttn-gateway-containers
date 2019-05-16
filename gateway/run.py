@@ -92,10 +92,10 @@ def sanitize_router_address(address):
     address_no_proto = splitted_by_protocol[1]
 
   # Workaround as the account server returns mqtts ports which we can't connect to
-  address_no_proto.replace(":8883", ":1883")
-  address_no_proto.replace(":8882", ":1882")
+  address_no_proto = address_no_proto.replace(":8883", ":1883")
+  address_no_proto = address_no_proto.replace(":8882", ":1882")
 
-  return "bridge.eu.thethings.network" #address_no_proto
+  return address_no_proto
 
 # Fetch config from TTN if TTN is enabled
 if(os.getenv('SERVER_TTN', "true")=="true"):
@@ -213,6 +213,10 @@ if(os.getenv('GW_LOGGER', "false")=="true"):
   gateway_conf['logger'] = True
 else:
   gateway_conf['logger'] = False
+
+if os.getenv('GW_PLATFORM'):
+  # Override default platform ("IMST + Rpi")
+  gateway_conf['platform'] = os.getenv('GW_PLATFORM')
 
 if(os.getenv('GW_FWD_CRC_ERR', "false")=="true"):
   #default is False
