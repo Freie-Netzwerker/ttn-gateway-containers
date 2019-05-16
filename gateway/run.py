@@ -120,7 +120,7 @@ if(os.getenv('SERVER_TTN', "true")=="true"):
   # Fetch the URL, if it fails try 30 seconds later again.
   config_response = ""
   try:
-    req = urllib2.Request('https://%s/api/v2/gateways/%s' % (account_server_domain, my_gw_id))
+    req = urllib2.Request('https://%s/gateways/%s' % (account_server_domain, my_gw_id))
     req.add_header('Authorization', 'Key '+os.environ.get("GW_KEY"))
     response = urllib2.urlopen(req, timeout=30)
     config_response = response.read()
