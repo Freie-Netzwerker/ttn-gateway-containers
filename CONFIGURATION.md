@@ -97,19 +97,32 @@ As long as `SERVER_TTN` is set to false, you can also:
 | GW_REF_LONGITUDE  | 18.9  |
 | GW_REF_ALTITUDE   | 190   |
 
+## Collectd variables
+When collect is enabled (by selecting the `docker-compose-collectd.yml` file), system as well as TTN gateway facts will be sent to your collectd server (typically your InfluxDB/Grafana backend).
+
+### Required variables
+* GW_COLLECTD_SERVER
+  * The IP address of the collectd server.
+
+### Optional Variables
+* GW_COLLECTD_INTERVAL - default 10
+  * Interval in seconds for Collectd data collection  
+  Set to 60 if bandwidth is a concern.
+* GW_BACKPLANE - Default "none"
+  * Set to "DBRGN" if you use the [Coredump](https://github.com/dbrgn/ic880a-backplane/) backplane with sensors  
+  This will enable collection of the input voltage, temperature and humidity.
+* GW_TTN_FAN - default false
+  * Set to "true" if you have a fan controlled by the [Coredump](https://github.com/dbrgn/ic880a-backplane/) backplane
+* GW_TARGET_TEMP - default 45
+  * Target temperature in °C for the fan temperature regulation.
+* GW_BME280 - default false
+  * Set to `true` is you have a Bosch BME280 sensor on the I2C bus of your Raspberry Pi  
+  This will enable collection of the temperature, pressure and relative humidity.
+* GW_BME280_SMBUS - default 1
+  * Bus number for your I2C bus (Should be 1 on all recent Raspberry Pi).
+* GW_BME280_ADDR - default 0x78
+  * I2C address for your BME280 sensor.
+
 ## Note about boolean values
 
 Use `true` and `false` as lower case words to enable or disable features via environment variables. Any other format will not be interpreted correctly.
-
-# Logal debugging
-```
-docker run --device /dev/ttyAMA0:/dev/ttyAMA0 --device /dev/mem:/dev/mem --privileged -e GW_TYPE="imst-ic880a-spi" -e GW_DESCRIPTION="test gateway" -e GW_CONTACT_EMAIL="" -e GW_ID="" -e GW_KEY="" newforwarder
-
-
-```
-Make a copy of `Dockerfile.template` to `Dockerfile`.
-```
-FROM resin/raspberrypi-buildpack-deps
-...
-CMD ["bash"]
-```

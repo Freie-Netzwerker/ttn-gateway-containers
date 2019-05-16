@@ -31,6 +31,10 @@ services:
     restart: always
     environment:
       GW_COLLECTD_SERVER: "${GW_COLLECTD_SERVER}"
+      GW_COLLECTD_INTERVAL: "${GW_COLLECTD_INTERVAL}"
+      GW_BME280: "${GW_BME280:-false}"
+      GW_BME280_ADDR: "${GW_BME280_ADDR}"
+      GW_BME280_SMBUS: "${GW_BME280_SMBUS}"
     volumes:
       - var_ttn_vol:/var/ttn
 
