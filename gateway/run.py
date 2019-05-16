@@ -92,8 +92,8 @@ def sanitize_router_address(address):
     address_no_proto = splitted_by_protocol[1]
 
   # Workaround as the account server returns mqtts ports which we can't connect to
-  address_no_proto.replace(":8883", ":1883")
-  address_no_proto.replace(":8882", ":1882")
+  address_no_proto.replace(":8883", "") # Workaround Test , ":1883")
+  address_no_proto.replace(":8882", "") # Workaround Test , ":1882")
 
   return address_no_proto
 
@@ -120,7 +120,7 @@ if(os.getenv('SERVER_TTN', "true")=="true"):
   # Fetch the URL, if it fails try 30 seconds later again.
   config_response = ""
   try:
-    req = urllib2.Request('https://%s/gateways/%s' % (account_server_domain, my_gw_id))
+    req = urllib2.Request('https://%s/api/v2/gateways/%s' % (account_server_domain, my_gw_id))
     req.add_header('Authorization', 'Key '+os.environ.get("GW_KEY"))
     response = urllib2.urlopen(req, timeout=30)
     config_response = response.read()
