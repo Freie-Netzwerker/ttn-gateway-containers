@@ -92,10 +92,10 @@ def sanitize_router_address(address):
     address_no_proto = splitted_by_protocol[1]
 
   # Workaround as the account server returns mqtts ports which we can't connect to
-  address_no_proto.replace(":8883", "") # Workaround Test , ":1883")
-  address_no_proto.replace(":8882", "") # Workaround Test , ":1882")
+  address_no_proto.replace(":8883", ":1883")
+  address_no_proto.replace(":8882", ":1882")
 
-  return address_no_proto
+  return "bridge.eu.thethings.network" #address_no_proto
 
 # Fetch config from TTN if TTN is enabled
 if(os.getenv('SERVER_TTN', "true")=="true"):
