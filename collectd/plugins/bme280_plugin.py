@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 BME280 Plugin.
+
 Publishes temperature, pressure and humidity from BME280 i2c sensor
+
 BME280 code is from Matt Hawkins / www.raspberrypi-spy.co.uk
 """
 import collectd
